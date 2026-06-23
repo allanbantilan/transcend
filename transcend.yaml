@@ -1,0 +1,147 @@
+{
+  "name": "transcend",
+  "version": "0.1.0",
+  "description": "Portable orchestration workflow for coding agents.",
+  "roles": {
+    "token_optimizer": {
+      "required": true,
+      "reference": ["ponytail", "caveman"],
+      "providers": {
+        "codex": ["skill:ponytail", "skill:caveman"],
+        "claude_code": ["hook:prompt-preprocessor", "agent:token-optimizer"],
+        "generic": ["entry-preprocessor"]
+      },
+      "install": {
+        "codex": ["install skill ponytail", "install skill caveman"],
+        "claude_code": ["map prompt hook to token_optimizer"],
+        "generic": ["run optimizer as first explicit workflow step"]
+      },
+      "fallback": "Use terse prompting and delete speculative scope before every step."
+    },
+    "planner": {
+      "required": true,
+      "reference": ["brainstorming"],
+      "providers": {
+        "codex": ["skill:superpowers:brainstorming"],
+        "claude_code": ["subagent:planner"],
+        "generic": ["planning prompt"]
+      },
+      "install": {
+        "codex": ["install superpowers brainstorming skill"],
+        "claude_code": ["create planner subagent or command"],
+        "generic": ["store planning prompt locally"]
+      },
+      "fallback": "Gather context, write local spec, write local plan, and do not commit planning artifacts."
+    },
+    "backend_debugger": {
+      "required": false,
+      "reference": ["systematic-debugging"],
+      "providers": {
+        "codex": ["skill:superpowers:systematic-debugging"],
+        "claude_code": ["subagent:backend-debugger"],
+        "generic": ["debugging prompt"]
+      },
+      "install": {
+        "codex": ["install superpowers systematic-debugging skill"],
+        "claude_code": ["create backend debugger subagent"],
+        "generic": ["store debugging prompt locally"]
+      },
+      "fallback": "Trace symptom to root cause, inspect all callers, reproduce before editing, verify fix."
+    },
+    "frontend_implementer": {
+      "required": false,
+      "reference": ["impeccable"],
+      "providers": {
+        "codex": ["skill:impeccable", "optional:magicpath", "optional:webapp-testing"],
+        "claude_code": ["subagent:frontend-implementer"],
+        "generic": ["frontend implementation prompt"]
+      },
+      "install": {
+        "codex": ["install impeccable skill", "optionally install frontend tools"],
+        "claude_code": ["create frontend implementer subagent"],
+        "generic": ["store frontend prompt locally"]
+      },
+      "fallback": "Follow existing UI patterns, implement smallest usable UI, verify responsive behavior."
+    },
+    "code_reviewer": {
+      "required": true,
+      "reference": ["pr-review-toolkit"],
+      "providers": {
+        "codex": ["review prompt", "skill:ponytail-review"],
+        "claude_code": ["subagent:code-reviewer"],
+        "generic": ["review prompt"]
+      },
+      "install": {
+        "codex": ["install ponytail-review skill when available"],
+        "claude_code": ["create reviewer subagent"],
+        "generic": ["store review prompt locally"]
+      },
+      "fallback": "Review for bugs, regressions, missing tests, and removable complexity before completion."
+    },
+    "browser_tester": {
+      "required": false,
+      "reference": ["Playwright headless"],
+      "providers": {
+        "codex": ["skill:webapp-testing", "tool:playwright"],
+        "claude_code": ["mcp:playwright"],
+        "generic": ["playwright CLI"]
+      },
+      "install": {
+        "codex": ["install webapp-testing skill or npm Playwright"],
+        "claude_code": ["configure Playwright MCP"],
+        "generic": ["install Playwright using host package manager"]
+      },
+      "fallback": "Run documented manual browser smoke test and save screenshots when automation is unavailable."
+    },
+    "pdf_generator": {
+      "required": false,
+      "reference": ["any PDF tool"],
+      "providers": {
+        "codex": ["python:reportlab optional", "browser print-to-pdf"],
+        "claude_code": ["mcp:pdf-generator", "browser print-to-pdf"],
+        "generic": ["pandoc", "weasyprint", "browser print-to-pdf"]
+      },
+      "install": {
+        "codex": ["use available PDF tool or document manual export"],
+        "claude_code": ["configure PDF MCP or manual browser export"],
+        "generic": ["install pandoc, weasyprint, or use browser print"]
+      },
+      "fallback": "Write Markdown test assessment and ask user to export to PDF."
+    }
+  },
+  "commands": {
+    "run": {"syntax": "/transcend", "roles": ["token_optimizer", "planner", "backend_debugger", "frontend_implementer", "code_reviewer", "browser_tester", "pdf_generator"], "description": "Run full workflow."},
+    "plan": {"syntax": "/transcend plan", "roles": ["token_optimizer", "planner"], "description": "Plan only; store artifacts locally; no commit."},
+    "debug": {"syntax": "/transcend debug", "roles": ["token_optimizer", "backend_debugger"], "description": "Backend diagnosis only."},
+    "frontend": {"syntax": "/transcend frontend", "roles": ["token_optimizer", "frontend_implementer"], "description": "Frontend implementation only."},
+    "review": {"syntax": "/transcend review", "roles": ["token_optimizer", "code_reviewer"], "description": "Simplification and review only."},
+    "test": {"syntax": "/transcend test", "roles": ["token_optimizer", "browser_tester"], "description": "Headless browser regression test; prompt for credentials."},
+    "doc": {"syntax": "/transcend doc", "roles": ["token_optimizer", "pdf_generator"], "description": "Generate test assessment document."},
+    "optimize": {"syntax": "/transcend optimize", "roles": ["token_optimizer"], "description": "Token optimization only."},
+    "bootstrap": {"syntax": "/transcend bootstrap", "roles": ["token_optimizer", "planner", "backend_debugger", "frontend_implementer", "code_reviewer", "browser_tester", "pdf_generator"], "description": "Best-effort dependency install/check for current host."},
+    "doctor": {"syntax": "/transcend doctor", "roles": ["token_optimizer", "planner", "backend_debugger", "frontend_implementer", "code_reviewer", "browser_tester", "pdf_generator"], "description": "Verify config, mappings, providers, and fallbacks."}
+  },
+  "workflow": [
+    "Run token_optimizer as hook or first explicit step.",
+    "Classify intent as backend, frontend, or both.",
+    "Run planner; backend diagnosis uses backend_debugger when relevant.",
+    "Store spec and plan locally only; never commit planning artifacts.",
+    "Route backend tasks to planner plus backend_debugger.",
+    "Route frontend tasks to frontend_implementer and configured frontend tools.",
+    "Run code_reviewer simplification and review.",
+    "Re-verify with relevant roles.",
+    "Run code_reviewer again.",
+    "Run browser_tester quick regression.",
+    "Run pdf_generator for uniform test assessment.",
+    "Commit one logical task using Conventional Commits."
+  ],
+  "bootstrap_policy": {"mode": "best_effort", "credentials": "prompt interactively", "private_sources": "do not install without user-provided credentials", "unsupported_hosts": "report manual steps"},
+  "doctor_policy": {"fail_closed_when": "required role has no provider and no fallback", "degraded_when": "optional role uses fallback"},
+  "credential_policy": {"request": "interactive only", "store": "never by default", "log": "never"},
+  "commit_policy": {
+    "planning": "never auto-commit",
+    "implementation": "one logical task equals one commit",
+    "format": "Conventional Commits",
+    "examples": ["feat: add customer territory filtering", "fix: prevent duplicate activity sync", "refactor: simplify request limit validation", "docs: update API response examples", "test: add coverage service unit tests", "chore: upgrade laravel to 12.x", "build: update docker image versions", "ci: add deployment workflow", "perf: optimize activity export query", "style: format code with pint", "revert: revert territory fallback logic"]
+  }
+}
