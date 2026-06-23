@@ -13,3 +13,4 @@ Required behavior:
 5. Fail closed only when a required role has no provider and no fallback.
 6. Commit completed implementation work as one logical task using Conventional Commits.
 7. Keep host-specific behavior outside the shared role map.
+8. Offer only trusted alternatives from `transcend.yaml`; install and verify the selected alternative before using it.

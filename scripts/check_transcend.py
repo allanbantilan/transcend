@@ -38,12 +38,23 @@ def main() -> None:
     require("bootstrap" in commands, "bootstrap command missing")
     require("doctor" in commands, "doctor command missing")
     require("commit_policy" in config, "commit policy missing")
+    require("alternative_policy" in config, "alternative policy missing")
+    trusted_alternatives = config.get("trusted_alternatives")
+    require(isinstance(trusted_alternatives, dict) and trusted_alternatives, "trusted alternatives missing")
 
     roles = set(roles_config)
 
     for name, command in commands.items():
         for role in command.get("roles", []):
             require(role in roles, f"command {name} references unknown role {role}")
+
+    for role, alternatives in trusted_alternatives.items():
+        require(role in roles, f"trusted alternatives reference unknown role {role}")
+        require(isinstance(alternatives, list) and alternatives, f"trusted alternatives for {role} missing")
+        for index, alternative in enumerate(alternatives, start=1):
+            require(alternative.get("provider"), f"trusted alternative {role}[{index}] missing provider")
+            require(alternative.get("install"), f"trusted alternative {role}[{index}] missing install")
+            require(alternative.get("verify"), f"trusted alternative {role}[{index}] missing verify")
 
     require(COMMAND.exists(), "missing .codex/commands/transcend.md")
     command_text = COMMAND.read_text()

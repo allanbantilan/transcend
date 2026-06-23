@@ -29,6 +29,8 @@ Read `transcend.yaml` first. Treat it as the single source of truth for roles, p
 
 For `/transcend bootstrap`, install only providers supported by the current host. Prompt before authenticated or private installs. Report manual steps for unsupported providers.
 
+If a role provider is missing, offer only alternatives listed in `trusted_alternatives` in `transcend.yaml`. Each offered alternative must include an install command and a verification command. Install the selected alternative before using it, then run its verification command. If install or verification fails, stop and ask the user to pick another trusted alternative or provide a custom provider with install command, verification command, and role mapping.
+
 ## Doctor
 
-For `/transcend doctor`, verify `transcend.yaml`, command routing, role names, required providers or fallbacks, credential policy, and commit policy. Report degraded optional roles separately from blocking required roles.
+For `/transcend doctor`, verify `transcend.yaml`, command routing, role names, required providers or fallbacks, trusted alternatives, credential policy, and commit policy. Report degraded optional roles separately from blocking required roles.

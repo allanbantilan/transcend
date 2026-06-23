@@ -98,6 +98,19 @@ All roles, providers, fallbacks, install notes, workflow steps, credential rules
 
 Do not duplicate role mappings in host-specific files.
 
+## Alternatives
+
+If a role provider is missing, Transcend offers only trusted alternatives listed in `transcend.yaml`.
+
+Each alternative must include:
+
+- provider name
+- install command
+- verification command
+- role mapping
+
+The selected alternative is installed before use, then verified. If install or verification fails, Transcend stops and asks you to choose another trusted alternative or provide a custom provider with its install and verification commands. It should not continue with an unproven replacement.
+
 ## Credentials
 
 Credentials are requested interactively only. They are never assumed, hardcoded, logged, or stored by default.

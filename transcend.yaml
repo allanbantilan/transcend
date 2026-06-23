@@ -137,6 +137,40 @@
   ],
   "bootstrap_policy": {"mode": "best_effort", "credentials": "prompt interactively", "private_sources": "do not install without user-provided credentials", "unsupported_hosts": "report manual steps"},
   "doctor_policy": {"fail_closed_when": "required role has no provider and no fallback", "degraded_when": "optional role uses fallback"},
+  "alternative_policy": {
+    "offer_only": "trusted alternatives listed in trusted_alternatives",
+    "install_before_use": true,
+    "verify_after_install": true,
+    "if_install_fails": "stop and ask user to choose another trusted alternative or provide an explicit custom provider",
+    "custom_provider_rule": "accept only after user provides install command, verification command, and role mapping"
+  },
+  "trusted_alternatives": {
+    "planner": [
+      {"host": "claude_code", "provider": "superpowers@claude-plugins-official", "install": "/plugin install superpowers@claude-plugins-official", "verify": "claude plugin list"},
+      {"host": "codex", "provider": "superpowers@transcend", "install": "codex plugin add superpowers@transcend", "verify": "codex plugin list --json"}
+    ],
+    "backend_debugger": [
+      {"host": "claude_code", "provider": "superpowers@claude-plugins-official", "install": "/plugin install superpowers@claude-plugins-official", "verify": "claude plugin list"},
+      {"host": "codex", "provider": "superpowers@transcend", "install": "codex plugin add superpowers@transcend", "verify": "codex plugin list --json"}
+    ],
+    "frontend_implementer": [
+      {"host": "claude_code", "provider": "frontend-design@claude-plugins-official", "install": "/plugin install frontend-design@claude-plugins-official", "verify": "claude plugin list"},
+      {"host": "codex", "provider": "magicpath@openai-curated", "install": "codex plugin add magicpath@openai-curated", "verify": "codex plugin list --json"},
+      {"host": "codex", "provider": "build-web-apps@openai-curated", "install": "codex plugin add build-web-apps@openai-curated", "verify": "codex plugin list --json"}
+    ],
+    "code_reviewer": [
+      {"host": "claude_code", "provider": "pr-review-toolkit@claude-plugins-official", "install": "/plugin install pr-review-toolkit@claude-plugins-official", "verify": "claude plugin list"},
+      {"host": "codex", "provider": "ponytail@transcend", "install": "codex plugin add ponytail@transcend", "verify": "codex plugin list --json"}
+    ],
+    "browser_tester": [
+      {"host": "claude_code", "provider": "playwright@claude-plugins-official", "install": "/plugin install playwright@claude-plugins-official", "verify": "claude plugin list"},
+      {"host": "generic", "provider": "Playwright CLI", "install": "npx --yes playwright install chromium", "verify": "npx playwright --version"}
+    ],
+    "pdf_generator": [
+      {"host": "claude_code", "provider": "playwright@claude-plugins-official", "install": "/plugin install playwright@claude-plugins-official", "verify": "claude plugin list"},
+      {"host": "generic", "provider": "Playwright CLI print-to-pdf", "install": "npx --yes playwright install chromium", "verify": "npx playwright --version"}
+    ]
+  },
   "credential_policy": {"request": "interactive only", "store": "never by default", "log": "never"},
   "commit_policy": {
     "planning": "never auto-commit",
