@@ -36,7 +36,22 @@ Open the `Transcend` marketplace, install `transcend`, then start a new thread.
 
 ### Claude Code
 
-Claude Code custom commands are Markdown files under `.claude/commands/`. Clone this repo, then copy the command and config into your project:
+Claude Code can install `transcend` from this repo as a marketplace plugin:
+
+```text
+/plugin marketplace add allanbantilan/transcend
+/plugin install transcend@transcend
+/reload-plugins
+```
+
+Marketplace-installed plugin commands are namespaced. Run:
+
+```text
+/transcend:transcend bootstrap
+/transcend:transcend doctor
+```
+
+If you want the exact `/transcend` command in one project, use Claude Code's standalone command layout instead. Clone this repo, then copy the command and config into your project:
 
 ```bash
 git clone https://github.com/allanbantilan/transcend.git

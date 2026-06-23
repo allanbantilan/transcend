@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "transcend",
+  "version": "0.1.0",
+  "description": "Portable coding-agent orchestration workflow for Claude Code.",
+  "owner": {
+    "name": "Allan Bantilan"
+  },
+  "plugins": [
+    {
+      "name": "transcend",
+      "description": "Portable coding-agent orchestration command suite.",
+      "author": {
+        "name": "Allan Bantilan"
+      },
+      "source": {
+        "source": "url",
+        "url": "https://github.com/allanbantilan/transcend.git",
+        "ref": "main"
+      },
+      "category": "productivity",
+      "homepage": "https://github.com/allanbantilan/transcend"
+    }
+  ]
+}
