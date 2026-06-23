@@ -6,5 +6,24 @@
     "name": "Allan Bantilan"
   },
   "license": "MIT",
-  "repository": "https://github.com/allanbantilan/transcend"
+  "repository": "https://github.com/allanbantilan/transcend",
+  "dependencies": [
+    "ponytail",
+    {
+      "name": "superpowers",
+      "marketplace": "claude-plugins-official"
+    },
+    {
+      "name": "frontend-design",
+      "marketplace": "claude-plugins-official"
+    },
+    {
+      "name": "pr-review-toolkit",
+      "marketplace": "claude-plugins-official"
+    },
+    {
+      "name": "playwright",
+      "marketplace": "claude-plugins-official"
+    }
+  ]
 }

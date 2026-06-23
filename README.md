@@ -34,6 +34,8 @@ codex
 
 Open the `Transcend` marketplace, install `transcend`, then start a new thread.
 
+The Codex marketplace marks `superpowers` and `ponytail` as installed by default. Codex does not currently expose the same cross-marketplace dependency field as Claude Code, so `/transcend bootstrap` still checks role providers and reports manual steps for unavailable frontend, browser, and PDF tools.
+
 ### Claude Code
 
 Claude Code can install `transcend` from this repo as a marketplace plugin:
@@ -43,6 +45,14 @@ Claude Code can install `transcend` from this repo as a marketplace plugin:
 /plugin install transcend@transcend
 /reload-plugins
 ```
+
+Claude Code auto-installs declared plugin dependencies:
+
+- `ponytail@transcend`
+- `superpowers@claude-plugins-official`
+- `frontend-design@claude-plugins-official`
+- `pr-review-toolkit@claude-plugins-official`
+- `playwright@claude-plugins-official`
 
 Marketplace-installed plugin commands are namespaced. Run:
 
