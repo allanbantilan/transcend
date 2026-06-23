@@ -8,12 +8,51 @@ Portable orchestration workflow for coding agents.
 
 Install this repository as a plugin in the host agent. Codex uses `.codex-plugin/plugin.json` and `.codex/commands/transcend.md`.
 
-After install:
+### Codex CLI
+
+Codex installs plugins from marketplaces. Add this repo as a marketplace, install `transcend`, then start a new thread:
 
 ```bash
+codex plugin marketplace add allanbantilan/transcend
+codex plugin add transcend@transcend
+codex
+```
+
+Inside Codex:
+
+```text
 /transcend bootstrap
 /transcend doctor
 ```
+
+You can also install from the interactive plugin browser:
+
+```text
+codex
+/plugins
+```
+
+Open the `Transcend` marketplace, install `transcend`, then start a new thread.
+
+### Claude Code
+
+Claude Code custom commands are Markdown files under `.claude/commands/`. Clone this repo, then copy the command and config into your project:
+
+```bash
+git clone https://github.com/allanbantilan/transcend.git
+mkdir -p .claude/commands
+cp transcend/.claude/commands/transcend.md .claude/commands/transcend.md
+cp transcend/transcend.yaml transcend.yaml
+```
+
+Then start Claude Code in the project and run:
+
+```text
+/transcend bootstrap
+/transcend doctor
+```
+
+Claude Code also supports skills; if you package this as a skill later, keep `transcend.yaml` as the shared role map.
 
 ## Commands
 

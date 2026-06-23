@@ -1,0 +1,21 @@
+{
+  "name": "transcend",
+  "interface": {
+    "displayName": "Transcend"
+  },
+  "plugins": [
+    {
+      "name": "transcend",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/allanbantilan/transcend.git",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_FIRST_USE"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
