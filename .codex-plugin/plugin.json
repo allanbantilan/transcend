@@ -1,0 +1,7 @@
+{
+  "name": "transcend",
+  "version": "0.1.0",
+  "description": "Portable coding-agent orchestration command suite.",
+  "author": "Allan Bantilan",
+  "license": "MIT"
+}
